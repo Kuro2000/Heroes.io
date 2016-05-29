@@ -2,20 +2,18 @@
  * Created by Do Dinh Tu on 5/29/2016.
  */
 class Archer {
-    constructor(x,y,id){
+    constructor(x,y){
         this.fireball = null;
         this.x = x;
         this.y = y;
-        this.speedx = 0;
-        this.speedy = 0;
-        this.sprite = new Animation(this.x, this.y, "archer_up_1.png",2,17);
-        this.spriteUp = new Animation(this.x, this.y, "archer_up_1.png",2,17);
-        this.spriteDown = new Animation(this.x, this.y, "archer_down_1.png",2,17);
-        this.spriteLeft = new Animation(this.x, this.y, "archer_left_1.png",2,17);
-        this.spriteRight = new Animation(this.x, this.y, "archer_right_1.png",2,17);
+        this.speedX = 0;
+        this.speedY = 0;
+        this.spriteUp = new Animation(this.x, this.y, "archer_up_1.png",3,17);
+        this.spriteDown = new Animation(this.x, this.y, "archer_down_",3,17);
+        this.spriteLeft = new Animation(this.x, this.y, "archer_left_",3,17);
+        this.spriteRight = new Animation(this.x, this.y, "archer_right_",3,17);
         this.sprite = this.spriteUp;
         this.direction = 1;//bien luu huong di chuyen hien tai cua tank
-        this.id = id;
     }
     draw(context){
         this.sprite.draw(context);
@@ -63,7 +61,7 @@ class Archer {
     }
     shoot() {
         if (this.fireball == null) {
-            this.fireball = new Bullet(this.x + 13, this.y + 13, this.direction);
+            this.fireball = new FireBall(this.x + 13, this.y + 13, this.direction);
         }
     }
 }

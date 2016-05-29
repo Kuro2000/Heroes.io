@@ -1,17 +1,16 @@
 /**
  * Created by Do Dinh Tu on 5/29/2016.
  */
-class Archer {
-    constructor(x, y,) {
+class Knight {
+    constructor(x,y) {
         this.x = x;
         this.y = y;
         this.speedx = 0;
         this.speedy = 0;
-        this.sprite = new Animation(this.x, this.y, "knight_up_1.png", 2, 17);
-        this.spriteUp = new Animation(this.x, this.y, "knight_up_1.png", 2, 17);
-        this.spriteDown = new Animation(this.x, this.y, "knight_down_1.png", 2, 17);
-        this.spriteLeft = new Animation(this.x, this.y, "khight_left_1.png", 2, 17);
-        this.spriteRight = new Animation(this.x, this.y, "knight_right_1.png", 2, 17);
+        this.spriteUp = new Animation(this.x, this.y, "knight_up_", 3, 17);
+        this.spriteDown = new Animation(this.x, this.y, "knight_down_", 3, 17);
+        this.spriteLeft = new Animation(this.x, this.y, "knight_left_", 3, 17);
+        this.spriteRight = new Animation(this.x, this.y, "knight_right_", 3, 17);
         this.sprite = this.spriteUp;
         this.direction = 1;//bien luu huong di chuyen hien tai cua tank
     }

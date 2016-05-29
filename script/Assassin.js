@@ -1,17 +1,17 @@
 /**
  * Created by Kuro on 5/29/2016.
  */
-class Mage {
+class Assassin {
     constructor(x,y,id){
         this.fireball = null;
         this.x = x;
         this.y = y;
         this.speedX = 0;
         this.speedY = 0;
-        this.spriteUp = new Animation(this.x,this.y,"mage_up_",2,17);
-        this.spriteDown = new Animation(this.x,this.y,"mage_down",2,17);
-        this.spriteLeft =new Animation(this.x,this.y,"mage_left",2,17);
-        this.spriteRight =new Animation(this.x,this.y,"mage_right",2,17);
+        this.spriteUp = new Animation(this.x,this.y,"assassin_up_",3,17);
+        this.spriteDown = new Animation(this.x,this.y,"assassin_down",3,17);
+        this.spriteLeft =new Animation(this.x,this.y,"assassin_left",3,17);
+        this.spriteRight =new Animation(this.x,this.y,"assassin_right",3,17);
         this.sprite = this.spriteUp;
         this.id = id;
         this.direction = 1; //Current direction
