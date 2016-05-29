@@ -1,22 +1,22 @@
 /**
- * Created by Kuro on 5/29/2016.
+ * Created by Duy_2 on 2016-05-29.
  */
+
 class Mage {
-    constructor(x,y,id){
+    constructor(x, y) {
         this.fireball = null;
         this.x = x;
         this.y = y;
         this.speedX = 0;
         this.speedY = 0;
-        this.spriteUp = new Animation(this.x,this.y,"mage_up_",2,17);
-        this.spriteDown = new Animation(this.x,this.y,"mage_down",2,17);
-        this.spriteLeft =new Animation(this.x,this.y,"mage_left",2,17);
-        this.spriteRight =new Animation(this.x,this.y,"mage_right",2,17);
+        this.spriteUp = new Animation(this.x, this.y, "mage_up_", 3, 17);
+        this.spriteDown = new Animation(this.x, this.y, "mage_down_", 3, 17);
+        this.spriteLeft = new Animation(this.x, this.y, "mage_left_", 3, 17);
+        this.spriteRight = new Animation(this.x, this.y, "mage_right_", 3, 17);
         this.sprite = this.spriteUp;
-        this.id = id;
+        // this.id = id;
         this.direction = 1; //Current direction
-}
-
+    }
     update() {
         var isMove = true;
         /* if (this.fireball != null) {
@@ -65,8 +65,10 @@ class Mage {
         if (isMove == true) {
             this.x += this.speedX;
             this.y += this.speedY;
+            this.sprite.x = this.x;
+            this.sprite.y = this.y;
         }
-        this.sprite.update(this.x,this.y);
+        this.sprite.update(this.speedX,this.speedY);
         if (this.fireball != null) {
             this.fireball.update();
         }
@@ -82,25 +84,25 @@ class Mage {
     move(direction) {
         switch (direction) {
             case 1://Move up
-                this.speedY = -4;
+                this.speedY = -1;
                 this.speedX = 0;
                 this.sprite = this.spriteUp;
                 this.direction = direction;
                 break;
             case 2://Move down
-                this.speedY = 4;
+                this.speedY = 1;
                 this.speedX = 0;
                 this.sprite = this.spriteDown;
                 this.direction = direction;
                 break;
             case 3://Move left
-                this.speedX = -4;
+                this.speedX = -1;
                 this.speedY = 0;
                 this.sprite = this.spriteLeft;
                 this.direction = direction;
                 break;
             case 4://Move right
-                this.speedX = 4;
+                this.speedX = 1;
                 this.speedY = 0;
                 this.sprite = this.spriteRight;
                 this.direction = direction;
@@ -109,7 +111,8 @@ class Mage {
     }
     shoot() {
         if (this.fireball == null) {
-            this.fireball = new fireball(this.x + 13, this.y + 13, this.direction);
+            this.fireball = new FireBall(this.x, this.y, this.direction);
         }
     }
 }
+
