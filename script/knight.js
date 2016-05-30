@@ -49,11 +49,11 @@ class Knight {
                 if(this.checkCollision(rect1,rect2) == true)
                 {
                     this.count++;
-                    if(this.count >= 10)
+                    if(this.count >= 15)
                     {
                         this.count = 0;
-                        console.log(arrMons[i].hp);
                         arrMons[i].hp -= 50;
+                        console.log(arrMons[i].hp);
                     }
                     if(arrMons[i].hp <=0)
                     {
@@ -67,7 +67,7 @@ class Knight {
         if(this.sword != null)
         {
             this.sword.update();
-            if(this.sword.x >= this.x+32 || this.sword.y >= this.y+32 || this.sword.x <= this.x-32 || this.sword.y <= this.y-32)
+            if(this.sword.x >= this.x+48 || this.sword.y >= this.y+48 || this.sword.x <= this.x-48 || this.sword.y <= this.y-48)
             {
                 this.sword = null;
             }
