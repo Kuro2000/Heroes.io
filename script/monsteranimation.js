@@ -11,12 +11,11 @@ class GolemAnimation{
         this.ix =0;
         this.iy =0;
         this.sprite = new Image();
-        this.sprite.src = "images/MixedGolem.png";
+        this.sprite.src = "animation/MixedGolem.png";
     }
     update()
     {
         this.count ++;
-        console.log(this.count);
         if(this.count >= this.speed)
         {
             this.count = 0;

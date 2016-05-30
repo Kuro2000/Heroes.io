@@ -64,7 +64,7 @@ window.onload = function(){
     };
 
 function gameStart(){
-    player = new Mage(100,100);
+    player = new Knight(100,100);
 }
 
 function gameDrawer(context){
@@ -120,7 +120,7 @@ window.onkeydown = function(e){
             player.move(4);
             break;
         case 32: // SPACEBAR
-            player.shoot();
+            player.strike();
             break;
     }
 }
@@ -128,23 +128,23 @@ window.onkeydown = function(e){
 window.onkeyup = function(e){
     switch(e.keyCode) {
         case 87:
-            if (player.speedY < 0) {
-                player.speedY = 0;
+            if (player.speedy < 0) {
+                player.speedy = 0;
             }
             break;
         case 83:
-            if (player.speedY > 0) {
-                player.speedY = 0;
+            if (player.speedy > 0) {
+                player.speedy = 0;
             }
             break;
         case 65:
-            if (player.speedX < 0) {
-                player.speedX = 0;
+            if (player.speedx < 0) {
+                player.speedx = 0;
             }
             break;
         case 68:
-            if (player.speedX > 0) {
-                player.speedX = 0;
+            if (player.speedx > 0) {
+                player.speedx = 0;
             }
             break;
     }
