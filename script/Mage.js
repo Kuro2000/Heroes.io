@@ -1,5 +1,5 @@
 /**
- * Created by Duy_2 on 2016-05-29.
+ * Created by Kuro on 2016-05-29.
  */
 
 class Mage {
@@ -28,7 +28,7 @@ class Mage {
     }
     update() {
         var isMove = true;
-        if (this.fireball != null) {
+      if (this.fireball != null) {
             var rect1 = {x:this.fireball.x, y:this.fireball.y,width:8,height:8};
             for (var i = 0; i < arrBrick.length; i++) {
                 var rect2 = {x: arrBrick[i].x, y: arrBrick[i].y, width: 16, height: 16};
@@ -112,9 +112,9 @@ class Mage {
         }
     }
     shoot() {
-        if (this.fireball == null) {
+       if (this.fireball == null) {
             this.fireball = new FireBall(this.x, this.y, this.direction);
-        }
+       }
     }
 }
 

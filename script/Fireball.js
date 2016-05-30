@@ -9,10 +9,10 @@ class FireBall{
         this.direction = direction;
         this.speedX = 0;
         this.speedY = 0;
-        this.spriteUp = new Animation(this.x,this.y,"fireball_up_",3,17);
-        this.spriteDown = new Animation(this.x,this.y,"fireball_down_",3,17);
-        this.spriteLeft = new Animation(this.x,this.y,"fireball_left_",3,17);
-        this.spriteRight = new Animation(this.x,this.y,"fireball_right_",3,17);
+        this.spriteUp = new Animation(this.x,this.y,"fireball_up_",4,12);
+        this.spriteDown = new Animation(this.x,this.y,"fireball_down_",4,12);
+        this.spriteLeft = new Animation(this.x,this.y,"fireball_left_",4,12);
+        this.spriteRight = new Animation(this.x,this.y,"fireball_right_",4,12);
         this.sprite = this.spriteUp;
         switch(direction){
             case 1://up

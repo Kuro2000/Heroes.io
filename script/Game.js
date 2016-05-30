@@ -65,7 +65,7 @@ window.onload = function(){
     };
 
 function gameStart(){
-    player = new Knight(100,100);
+    player = new Assassin(100,100);
     var golem = new Golem(100,100);
     arrMons.push(golem);
 }
@@ -133,6 +133,7 @@ window.onkeydown = function(e){
             break;
         case 32: // SPACEBAR
             player.strike();
+            player.shoot();
             break;
     }
 }
