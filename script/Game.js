@@ -17,6 +17,7 @@ var arrMons = [];
 window.onload = function(){
     var canvas =  document.createElement("canvas");
     context = canvas.getContext("2d"); // draws
+    
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     document.body.appendChild(canvas);
@@ -61,11 +62,11 @@ window.onload = function(){
             player.update();
             gameUpdate();
             gameDrawer(context);
-        }, 17);
+        }, 35);
     };
 
 function gameStart(){
-    player = new Assassin(100,100);
+    player = new Mage(100,100);
     var golem = new Golem(100,100);
     arrMons.push(golem);
 }
@@ -141,24 +142,28 @@ window.onkeydown = function(e){
 window.onkeyup = function(e){
     switch(e.keyCode) {
         case 87:
-            if (player.speedy < 0) {
-                player.speedy = 0;
+            if (player.speedY < 0) {
+                player.speedY = 0;
             }
             break;
         case 83:
-            if (player.speedy > 0) {
-                player.speedy = 0;
+            if (player.speedY > 0) {
+                player.speedY = 0;
             }
             break;
         case 65:
-            if (player.speedx < 0) {
-                player.speedx = 0;
+            if (player.speedX < 0) {
+                player.speedX = 0;
             }
             break;
         case 68:
-            if (player.speedx > 0) {
-                player.speedx = 0;
+            if (player.speedX > 0) {
+                player.speedX = 0;
             }
             break;
+        case 32:
+            if (player.sword != null){
+                player.sword = null;
+            }
     }
 }

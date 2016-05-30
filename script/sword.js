@@ -15,19 +15,19 @@ class Sword{
         this.sprite = this.spriteUp;
         switch(direction){
             case 1://up
-                this.speedY = -1;
+                this.speedY = -3;
                 this.sprite = this.spriteUp;
                 break;
             case 2://down
-                this.speedY = 1;
+                this.speedY = 3;
                 this.sprite = this.spriteDown;
                 break;
             case 3://left
-                this.speedX = -1;
+                this.speedX = -3;
                 this.sprite = this.spriteLeft;
                 break;
             case 4://right
-                this.speedX = 1;
+                this.speedX = 3;
                 this.sprite = this.spriteRight;
                 break;
         }
