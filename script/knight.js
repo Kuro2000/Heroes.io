@@ -5,6 +5,7 @@ class Knight {
     constructor(x,y) {
         this.x = x;
         this.y = y;
+        this.count=0;
         this.speedx = 0;
         this.speedy = 0;
         this.sword = null;
@@ -47,7 +48,13 @@ class Knight {
                 var rect2 = {x:arrMons[i].x,y:arrMons[i].y,width:75,height:75};
                 if(this.checkCollision(rect1,rect2) == true)
                 {
-                    arrMons[i].hp -= 50;
+                    this.count++;
+                    if(this.count >= 10)
+                    {
+                        this.count = 0;
+                        console.log(arrMons[i].hp);
+                        arrMons[i].hp -= 50;
+                    }
                     if(arrMons[i].hp <=0)
                     {
                         arrMons.splice(i,1);
@@ -60,7 +67,7 @@ class Knight {
         if(this.sword != null)
         {
             this.sword.update();
-            if(this.sword.x >= this.x+48 || this.sword.y >= this.y+48 || this.sword.x <= this.x-48 || this.sword.y <= this.y-48)
+            if(this.sword.x >= this.x+32 || this.sword.y >= this.y+32 || this.sword.x <= this.x-32 || this.sword.y <= this.y-32)
             {
                 this.sword = null;
             }
