@@ -35,3 +35,36 @@ class Animation{
         context.drawImage(this.sprites[this.index],this.x,this.y);
     }
 }
+class GolemAnimation{
+    constructor(x,y)
+    {
+        this.count = 0;
+        this.speed = 10;
+        this.x = x;
+        this.y = y;
+        this.ix =0;
+        this.iy =0;
+        this.sprite = new Image();
+        this.sprite.src = "animation/MixedGolem.png";
+    }
+    update()
+    {
+        this.count ++;
+        if(this.count >= this.speed)
+        {
+            this.count = 0;
+            if(this.ix<716)
+            {
+                this.ix +=179;
+            }
+            if(this.ix==716)
+            {
+                this.ix = 0;
+            }
+        }
+    }
+    draw(context)
+    {
+        context.drawImage(this.sprite,this.ix,this.iy,179,159,this.x,this.y,75,75);
+    }
+}

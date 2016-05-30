@@ -3,6 +3,7 @@
  */
 class Golem{
     constructor(x,y){
+        this.hp = 350;
         this.sx = x;
         this.sy = y;
         this.x=x;
@@ -27,35 +28,35 @@ class Golem{
         switch(this.move){
             case 1:
                 //move right
-                if(this.x <= this.sx + 100)
+                if(this.x <= this.sx + 70)
                 {
                     this.sprite.update();
-                    this.x += 5;
-                    this.sprite.x +=5;
+                    this.x += 1;
+                    this.sprite.x +=1;
                 }
                 break;
             case 2:
-                if(this.x >= this.sx -100)
+                if(this.x >= this.sx -70)
                 {
                     this.sprite.update();
-                    this.x -= 5;
-                    this.sprite.x -=5;
+                    this.x -= 1;
+                    this.sprite.x -=1;
                 }
                 break;
             case 3:
-                if(this.y <= this.sy + 100)
+                if(this.y <= this.sy + 70)
                 {
                     this.sprite.update();
-                    this.y += 5; 
-                    this.sprite.y +=5;
+                    this.y += 1;
+                    this.sprite.y +=1;
                 }
                 break;
             case 4:
-                if(this.y >= this.sy -100)
+                if(this.y >= this.sy -70)
                 {
                     this.sprite.update();
-                    this.y -= 5; 
-                    this.sprite.y -= 5;
+                    this.y -= 1;
+                    this.sprite.y -= 1;
                 }
                 break;
         }

@@ -33,6 +33,7 @@ class Sword{
         }
     }
     update(){
+        
         this.x += this.speedX;
         this.y += this.speedY;
         this.sprite.update(this.speedX,this.speedY);
@@ -44,4 +45,5 @@ class Sword{
         this.sprite.draw(context);
 
     }
+    
 }

@@ -12,6 +12,7 @@ var arrGoldBrick = new Array();
 var arrStone = new Array();
 var arrCobbleStone =  new Array();
 var arrDirt = new Array();
+var arrMons = [];
 
 window.onload = function(){
     var canvas =  document.createElement("canvas");
@@ -65,6 +66,8 @@ window.onload = function(){
 
 function gameStart(){
     player = new Knight(100,100);
+    var golem = new Golem(100,100);
+    arrMons.push(golem);
 }
 
 function gameDrawer(context){
@@ -95,6 +98,11 @@ function gameDrawer(context){
     for (var h = 0; h < arrDirt.length; h++){
         arrDirt[h].draw(context);
     }
+
+    for(var i = 0; i<arrMons.length;i++)
+    {
+        arrMons[i].draw(context);
+    }
     player.draw(context);
 }
 
@@ -103,6 +111,10 @@ function gameUpdate(){
         arrWater[i].update();
     }
     player.update();
+    for(var i=0;i< arrMons.length;i++)
+    {
+        arrMons[i].update();
+    }
 }
 
 window.onkeydown = function(e){

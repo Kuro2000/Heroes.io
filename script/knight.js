@@ -15,7 +15,15 @@ class Knight {
         this.sprite = this.spriteUp;
         this.direction = 1;//bien luu huong di chuyen hien tai cua tank
     }
-
+    checkCollision(rect1, rect2) {
+        if (rect1.x < rect2.x + rect2.width &&
+            rect1.x + rect1.width > rect2.x &&
+            rect1.y < rect2.y + rect2.height &&
+            rect1.height + rect1.y > rect2.y) {
+            return true;
+        }
+        return false;
+    }
     draw(context) {
         this.sprite.draw(context);
         if(this.sword != null)
@@ -23,7 +31,6 @@ class Knight {
             this.sword.draw(context);
         }
     }
-
     update() {
         var isMove = true;
         if (isMove == true) {
@@ -32,11 +39,28 @@ class Knight {
             this.sprite.x = this.x;
             this.sprite.y = this.y;
         }
+        if(this.sword != null)
+        {
+            var rect1 = {x:this.sword.x, y:this.sword.y,width:32,height:32};
+            for(var i = 0; i < arrMons.length;i++)
+            {
+                var rect2 = {x:arrMons[i].x,y:arrMons[i].y,width:75,height:75};
+                if(this.checkCollision(rect1,rect2) == true)
+                {
+                    arrMons[i].hp -= 50;
+                    if(arrMons[i].hp <=0)
+                    {
+                        arrMons.splice(i,1);
+                    }
+                    break;
+                }
+            }
+        }
         this.sprite.update(this.speedx, this.speedy);
         if(this.sword != null)
         {
             this.sword.update();
-            if(this.sword.x >= this.x+32 || this.sword.y >= this.y+32 || this.sword.x <= this.x-32 || this.sword.y <= this.y-32)
+            if(this.sword.x >= this.x+48 || this.sword.y >= this.y+48 || this.sword.x <= this.x-48 || this.sword.y <= this.y-48)
             {
                 this.sword = null;
             }
