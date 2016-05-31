@@ -8,26 +8,26 @@ class Sword{
         this.direction = direction;
         this.speedX = 0;
         this.speedY = 0;
-        this.spriteUp = new Animation(this.x,this.y,"sword_up_",4,10);
-        this.spriteDown = new Animation(this.x,this.y,"sword_down_",4,10);
-        this.spriteLeft = new Animation(this.x,this.y,"sword_left_",4,10);
-        this.spriteRight = new Animation(this.x,this.y,"sword_right_",4,10);
+        this.spriteUp = new Animation(this.x,this.y,"sword_up_",3,3);
+        this.spriteDown = new Animation(this.x,this.y,"sword_down_",3,3);
+        this.spriteLeft = new Animation(this.x,this.y,"sword_left_",3,3);
+        this.spriteRight = new Animation(this.x,this.y,"sword_right_",3,3);
         this.sprite = this.spriteUp;
         switch(direction){
             case 1://up
-                this.speedY = -3;
+                this.speedY = -4;
                 this.sprite = this.spriteUp;
                 break;
             case 2://down
-                this.speedY = 3;
+                this.speedY = 4;
                 this.sprite = this.spriteDown;
                 break;
             case 3://left
-                this.speedX = -3;
+                this.speedX = -4;
                 this.sprite = this.spriteLeft;
                 break;
             case 4://right
-                this.speedX = 3;
+                this.speedX = 4;
                 this.sprite = this.spriteRight;
                 break;
         }

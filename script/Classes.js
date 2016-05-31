@@ -249,8 +249,8 @@ class Knight {
         this.x = x;
         this.y = y;
         this.count=0;
-        this.speedx = 0;
-        this.speedy = 0;
+        this.speedX = 0;
+        this.speedY = 0;
         this.sword = null;
         this.spriteUp = new Animation(this.x, this.y, "knight_up_", 3, 17);
         this.spriteDown = new Animation(this.x, this.y, "knight_down_", 3, 17);
@@ -269,17 +269,17 @@ class Knight {
         return false;
     }
     draw(context) {
-        this.sprite.draw(context);
         if(this.sword != null)
         {
             this.sword.draw(context);
         }
+        this.sprite.draw(context);
     }
     update() {
         var isMove = true;
         if (isMove == true) {
-            this.x += this.speedx;
-            this.y += this.speedy;
+            this.x += this.speedX;
+            this.y += this.speedY;
             this.sprite.x = this.x;
             this.sprite.y = this.y;
         }
@@ -288,11 +288,11 @@ class Knight {
             var rect1 = {x:this.sword.x, y:this.sword.y,width:32,height:32};
             for(var i = 0; i < arrMons.length;i++)
             {
-                var rect2 = {x:arrMons[i].x,y:arrMons[i].y,width:75,height:75};
+                var rect2 = {x:arrMons[i].x,y:arrMons[i].y,width:179,height:159};
                 if(this.checkCollision(rect1,rect2) == true)
                 {
                     this.count++;
-                    if(this.count >= 15)
+                    if(this.count >= 12)
                     {
                         this.count = 0;
                         arrMons[i].hp -= 50;
@@ -306,7 +306,7 @@ class Knight {
                 }
             }
         }
-        this.sprite.update(this.speedx, this.speedy);
+        this.sprite.update(this.speedX, this.speedY);
         if(this.sword != null)
         {
             this.sword.update();
@@ -320,50 +320,50 @@ class Knight {
     move(direction) {
         switch (direction) {
             case 1://up
-                this.speedy = -2;
-                this.speedx = 0;
+                this.speedY = -2;
+                this.speedX = 0;
                 this.sprite = this.spriteUp;
                 this.direction = direction;
                 break;
             case 2://down
-                this.speedy = 2;
+                this.speedY = 2;
                 this.speedX = 0;
                 this.sprite = this.spriteDown;
                 this.direction = direction;
                 break;
             case 3://left
-                this.speedx = -2;
-                this.speedy = 0;
+                this.speedX = -2;
+                this.speedY = 0;
                 this.sprite = this.spriteLeft;
                 this.direction = direction;
                 break;
             case 4://right
-                this.speedx = 2;
-                this.speedy = 0;
+                this.speedX = 2;
+                this.speedY = 0;
                 this.sprite = this.spriteRight;
                 this.direction = direction;
                 break;
         }
     }
-    strike()
+    attack()
     {
         if(this.sword == null)
         {
-            switch(this.direction)
-            {
+            switch(this.direction){
                 case 1:
-                    this.sword = new Sword(this.x,this.y-16,this.direction);
+                    this.sword = new Sword(this.x-16,this.y-16,this.direction);
                     break;
                 case 2:
-                    this.sword = new Sword(this.x,this.y+16,this.direction);
+                    this.sword = new Sword(this.x-16,this.y+16,this.direction);
                     break;
                 case 3:
-                    this.sword = new Sword(this.x-16,this.y,this.direction);
+                    this.sword = new Sword(this.x-16,this.y-16,this.direction);
                     break;
                 case 4:
-                    this.sword = new Sword(this.x+16,this.y,this.direction);
+                    this.sword = new Sword(this.x+16,this.y-16,this.direction);
                     break;
             }
+
 
         }
     }
@@ -373,6 +373,10 @@ class Knight {
 class Mage {
     constructor(x, y) {
         this.fireball = null;
+        this.lv = 1;
+        this.currexp=0;
+        this.maxexp=50;
+        this.damage = 50;
         this.x = x;
         this.y = y;
         this.speedX = 0;
@@ -382,6 +386,8 @@ class Mage {
         this.spriteLeft = new Animation(this.x, this.y, "mage_left_", 3, 17);
         this.spriteRight = new Animation(this.x, this.y, "mage_right_", 3, 17);
         this.sprite = this.spriteUp;
+        this.count =0 ;
+        this.explosion =null;
         // this.id = id;
         this.direction = 1; //Current direction
     }
@@ -395,9 +401,18 @@ class Mage {
         return false;
     }
     update() {
+        if(this.explosion != null)
+        {
+            this.count ++;
+            if(this.count >= 20)
+            {
+                this.count = 0;
+                this.explosion = null;
+            }
+        }
         var isMove = true;
         if (this.fireball != null) {
-            var rect1 = {x:this.fireball.x, y:this.fireball.y,width:8,height:8};
+            var rect1 = {x:this.fireball.x, y:this.fireball.y,width:32,height:32};
             for (var i = 0; i < arrBrick.length; i++) {
                 var rect2 = {x: arrBrick[i].x, y: arrBrick[i].y, width: 16, height: 16};
                 if (this.checkCollision(rect1, rect2) == true) {
@@ -414,6 +429,28 @@ class Mage {
                     this.fireball = null;
                     break;
                 }
+            }
+            for(var i = 0; i < arrMons.length;i++)
+            {
+                var rect2 = {x:arrMons[i].x,y:arrMons[i].y,width:179,height:159};
+                if(this.checkCollision(rect1,rect2) == true)
+                {
+                    this.explosion = new Animation(arrMons[i].x + 50,arrMons[i].y+50,"explosion_",10,3);
+                    arrMons[i].hp -= this.damage;
+                    console.log(arrMons[i].hp);
+                    this.fireball = null;
+                    if(arrMons[i].hp <=0)
+                    {
+                        this.currexp += 50;
+                        arrMons.splice(i,1);
+                    }
+                    break;
+                }
+            }
+
+            if(this.fireball.x >= this.x + 192 ||this.fireball.y >= this.y +192 || this.fireball.x <= this.x -192 || this.fireball.y <= this.y -192 )
+            {
+                this.fireball =null;
             }
         }
         var rect1 = {x: this.x + this.speedX, y: this.y + this.speedY, width: 32, height: 32};
@@ -442,12 +479,29 @@ class Mage {
         if (this.fireball != null) {
             this.fireball.update();
         }
+        if (this.explosion != null)
+        {
+            this.explosion.update();
+        }
+        ///level
+        if(this.currexp == this.maxexp)
+        {
+            this.lv += 1;
+            console.log("level up "+this.lv);
+            this.damage += 10;
+            this.maxexp += this.currexp;
+            this.currexp = 0;
+        }
     }
 
     draw(context) {
         this.sprite.draw(context);
         if (this.fireball != null) {
             this.fireball.draw(context);
+        }
+        if(this.explosion != null)
+        {
+            this.explosion.draw(context);
         }
     }
 
@@ -479,7 +533,7 @@ class Mage {
                 break;
         }
     }
-    shoot() {
+    attack() {
         if (this.fireball == null) {
             this.fireball = new FireBall(this.x, this.y, this.direction);
         }

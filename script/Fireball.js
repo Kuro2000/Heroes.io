@@ -43,6 +43,5 @@ class FireBall{
     }
     draw(context){
         this.sprite.draw(context);
-
     }
 }

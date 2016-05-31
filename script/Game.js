@@ -13,7 +13,7 @@ var arrStone = new Array();
 var arrCobbleStone =  new Array();
 var arrDirt = new Array();
 var arrMons = [];
-
+var count = 0;
 window.onload = function(){
     var canvas =  document.createElement("canvas");
     context = canvas.getContext("2d"); // draws
@@ -59,18 +59,31 @@ window.onload = function(){
             }
         }
         setInterval(()=>{
+            createmonster();
             player.update();
             gameUpdate();
             gameDrawer(context);
-        }, 35);
+        }, 25);
     };
 
 function gameStart(){
     player = new Mage(100,100);
-    var golem = new Golem(100,100);
-    arrMons.push(golem);
 }
-
+function createmonster()
+{
+    count ++;
+    if(count >= 50)
+    {
+        count = 0;
+        if(arrMons.length <20)
+        {
+            var x = Math.floor((Math.random() * 1000) + 1);
+            var y = Math.floor((Math.random() * 1000) + 1);
+            var monster = new Golem(x,y);
+            arrMons.push(monster);
+        }
+    }
+}
 function gameDrawer(context){
     context.fillStyle = "black";
     context.fillRect(0,0,window.innerWidth,window.innerHeight);
@@ -133,8 +146,7 @@ window.onkeydown = function(e){
             player.move(4);
             break;
         case 32: // SPACEBAR
-            player.strike();
-            player.shoot();
+            player.attack();
             break;
     }
 }
@@ -161,9 +173,5 @@ window.onkeyup = function(e){
                 player.speedX = 0;
             }
             break;
-        case 32:
-            if (player.sword != null){
-                player.sword = null;
-            }
     }
 }

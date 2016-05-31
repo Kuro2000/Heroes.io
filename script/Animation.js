@@ -53,18 +53,24 @@ class GolemAnimation{
         if(this.count >= this.speed)
         {
             this.count = 0;
-            if(this.ix<716)
+            if(this.ix<=716)
             {
                 this.ix +=179;
             }
-            if(this.ix==716)
+            if(this.ix>716)
             {
                 this.ix = 0;
+                this.iy +=159;
+            }
+            if(this.ix >= 537 && this.iy >=318)
+            {
+                this.ix = 0;
+                this.iy = 0;
             }
         }
     }
     draw(context)
     {
-        context.drawImage(this.sprite,this.ix,this.iy,179,159,this.x,this.y,75,75);
+        context.drawImage(this.sprite,this.ix,this.iy,179,159,this.x,this.y,179,159);
     }
 }
