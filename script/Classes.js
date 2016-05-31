@@ -248,15 +248,17 @@ class Knight {
     constructor(x,y) {
         this.x = x;
         this.y = y;
-        this.count=0;
         this.speedX = 0;
         this.speedY = 0;
         this.sword = null;
+        this.countsword=0;
         this.spriteUp = new Animation(this.x, this.y, "knight_up_", 3, 17);
         this.spriteDown = new Animation(this.x, this.y, "knight_down_", 3, 17);
         this.spriteLeft = new Animation(this.x, this.y, "knight_left_", 3, 17);
         this.spriteRight = new Animation(this.x, this.y, "knight_right_", 3, 17);
         this.sprite = this.spriteUp;
+        this.hit = null;
+        this.counthit = 0;
         this.direction = 1;//bien luu huong di chuyen hien tai cua tank
     }
     checkCollision(rect1, rect2) {
@@ -273,10 +275,27 @@ class Knight {
         {
             this.sword.draw(context);
         }
+        if(this.hit != null)
+        {
+            this.hit.draw(context);
+        }
         this.sprite.draw(context);
     }
     update() {
+        if(this.hit != null)
+        {
+            this.counthit ++;
+            if(this.counthit >= 20)
+            {
+                this.counthit = 0;
+                this.hit = null;
+            }
+        }
         var isMove = true;
+        if(this.hit != null)
+        {
+            this.hit.update();
+        }
         if (isMove == true) {
             this.x += this.speedX;
             this.y += this.speedY;
@@ -291,10 +310,11 @@ class Knight {
                 var rect2 = {x:arrMons[i].x,y:arrMons[i].y,width:179,height:159};
                 if(this.checkCollision(rect1,rect2) == true)
                 {
-                    this.count++;
-                    if(this.count >= 12)
+                    this.countsword++;
+                    if(this.countsword >= 8)
                     {
-                        this.count = 0;
+                        this.hit = new Animation(arrMons[i].x+50,arrMons[i].y+50,"hit_",3,8);
+                        this.countsword = 0;
                         arrMons[i].hp -= 50;
                         console.log(arrMons[i].hp);
                     }

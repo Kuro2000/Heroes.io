@@ -67,7 +67,7 @@ window.onload = function(){
     };
 
 function gameStart(){
-    player = new Mage(100,100);
+    player = new Knight(100,100);
 }
 function createmonster()
 {
