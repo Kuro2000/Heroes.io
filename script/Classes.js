@@ -252,13 +252,22 @@ class Knight {
         this.speedY = 0;
         this.sword = null;
         this.countsword=0;
-        this.spriteUp = new Animation(this.x, this.y, "knight_up_", 3, 17);
-        this.spriteDown = new Animation(this.x, this.y, "knight_down_", 3, 17);
-        this.spriteLeft = new Animation(this.x, this.y, "knight_left_", 3, 17);
-        this.spriteRight = new Animation(this.x, this.y, "knight_right_", 3, 17);
+        this.spriteUp = new Animation(this.x, this.y, "knight_up_", 3, 17,32);
+        this.spriteDown = new Animation(this.x, this.y, "knight_down_", 3, 17,32);
+        this.spriteLeft = new Animation(this.x, this.y, "knight_left_", 3, 17,32);
+        this.spriteRight = new Animation(this.x, this.y, "knight_right_", 3, 17,32);
         this.sprite = this.spriteUp;
         this.hit = null;
         this.counthit = 0;
+        /////////////
+        ///info nhan vat
+        this.lv = 1;
+        this.currexp = 0;
+        this.maxexp = 50;
+        this.range = 48;
+        this.damage = 50;
+        //////
+        /////
         this.direction = 1;//bien luu huong di chuyen hien tai cua tank
     }
     checkCollision(rect1, rect2) {
@@ -304,7 +313,7 @@ class Knight {
         }
         if(this.sword != null)
         {
-            var rect1 = {x:this.sword.x, y:this.sword.y,width:32,height:32};
+            var rect1 = {x:this.sword.x, y:this.sword.y,width:this.range,height:this.range};
             for(var i = 0; i < arrMons.length;i++)
             {
                 var rect2 = {x:arrMons[i].x,y:arrMons[i].y,width:179,height:159};
@@ -313,13 +322,14 @@ class Knight {
                     this.countsword++;
                     if(this.countsword >= 8)
                     {
-                        this.hit = new Animation(arrMons[i].x+50,arrMons[i].y+50,"hit_",3,8);
+                        this.hit = new Animation(arrMons[i].x+50,arrMons[i].y+50,"hit_",3,8,70);
                         this.countsword = 0;
-                        arrMons[i].hp -= 50;
+                        arrMons[i].hp -= this.damage;
                         console.log(arrMons[i].hp);
                     }
                     if(arrMons[i].hp <=0)
                     {
+                        this.currexp += 50;
                         arrMons.splice(i,1);
                     }
                     break;
@@ -330,39 +340,53 @@ class Knight {
         if(this.sword != null)
         {
             this.sword.update();
-            if(this.sword.x >= this.x+48 || this.sword.y >= this.y+48 || this.sword.x <= this.x-48 || this.sword.y <= this.y-48)
+            if(this.sword.x >= this.x+32 || this.sword.y >= this.y+32 || this.sword.x <= this.x-this.range || this.sword.y <= this.y-this.range)
             {
                 this.sword = null;
+            }
+        }
+        if(this.currexp == this.maxexp)
+        {
+            this.lv ++;
+            this.maxexp+=this.currexp;
+            this.damage += 20;
+            this.currexp = 0;
+            if(this.lv == 5)
+            {
+                this.range += 52;
             }
         }
     }
 
     move(direction) {
-        switch (direction) {
-            case 1://up
-                this.speedY = -2;
-                this.speedX = 0;
-                this.sprite = this.spriteUp;
-                this.direction = direction;
-                break;
-            case 2://down
-                this.speedY = 2;
-                this.speedX = 0;
-                this.sprite = this.spriteDown;
-                this.direction = direction;
-                break;
-            case 3://left
-                this.speedX = -2;
-                this.speedY = 0;
-                this.sprite = this.spriteLeft;
-                this.direction = direction;
-                break;
-            case 4://right
-                this.speedX = 2;
-                this.speedY = 0;
-                this.sprite = this.spriteRight;
-                this.direction = direction;
-                break;
+        if(this.sword==null)
+        {
+            switch (direction) {
+                case 1://up
+                    this.speedY = -2;
+                    this.speedX = 0;
+                    this.sprite = this.spriteUp;
+                    this.direction = direction;
+                    break;
+                case 2://down
+                    this.speedY = 2;
+                    this.speedX = 0;
+                    this.sprite = this.spriteDown;
+                    this.direction = direction;
+                    break;
+                case 3://left
+                    this.speedX = -2;
+                    this.speedY = 0;
+                    this.sprite = this.spriteLeft;
+                    this.direction = direction;
+                    break;
+                case 4://right
+                    this.speedX = 2;
+                    this.speedY = 0;
+                    this.sprite = this.spriteRight;
+                    this.direction = direction;
+                    break;
+            }
         }
     }
     attack()
@@ -371,20 +395,22 @@ class Knight {
         {
             switch(this.direction){
                 case 1:
-                    this.sword = new Sword(this.x-16,this.y-16,this.direction);
+                    this.speedY = 0;
+                    this.sword = new Sword(this.x-(this.range/2 - 16),this.y-((this.range/4)*3),this.direction,this.range);
                     break;
                 case 2:
-                    this.sword = new Sword(this.x-16,this.y+16,this.direction);
+                    this.speedY = 0;
+                    this.sword = new Sword(this.x-(this.range/2 - 16),this.y+(this.range/4),this.direction,this.range);
                     break;
                 case 3:
-                    this.sword = new Sword(this.x-16,this.y-16,this.direction);
+                    this.speedX = 0;
+                    this.sword = new Sword(this.x-(this.range/4*3),this.y-(this.range/2-16),this.direction,this.range);
                     break;
                 case 4:
-                    this.sword = new Sword(this.x+16,this.y-16,this.direction);
+                    this.speedX = 0;
+                    this.sword = new Sword(this.x+(this.range/4),this.y-(this.range/2-16),this.direction,this.range);
                     break;
             }
-
-
         }
     }
 }

@@ -3,10 +3,11 @@
  */
 
 class Animation{
-    constructor(x,y,name,number,speed) {
+    constructor(x,y,name,number,speed,size) {
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.size = size;
         this.countFrame = number;
         this.sprites = new Array();
         this.index = 0;
@@ -32,7 +33,7 @@ class Animation{
     }
 
     draw(context){
-        context.drawImage(this.sprites[this.index],this.x,this.y);
+        context.drawImage(this.sprites[this.index],this.x,this.y,this.size,this.size);
     }
 }
 class GolemAnimation{

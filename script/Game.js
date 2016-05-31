@@ -63,7 +63,7 @@ window.onload = function(){
             player.update();
             gameUpdate();
             gameDrawer(context);
-        }, 25);
+        }, 35);
     };
 
 function gameStart(){
@@ -173,5 +173,10 @@ window.onkeyup = function(e){
                 player.speedX = 0;
             }
             break;
+        case 32:
+            if(player.sword != null)
+            {
+                player.sword = null;
+            }
     }
 }
