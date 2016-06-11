@@ -1,7 +1,9 @@
 /**
  * Created by Duy_2 on 2016-05-29.
  */
-
+var socket;
+var choice;
+var otherPlayers =[];
 var context;
 var player;
 var arrWater = new Array();
@@ -13,15 +15,17 @@ var arrStone = new Array();
 var arrCobbleStone =  new Array();
 var arrDirt = new Array();
 var arrMons = [];
-var count = 0;
+var arrBuff = [];
+var countbuff = 0;
 window.onload = function(){
+    var name = prompt("Nhập tên của bạn", "Username");
     var canvas =  document.createElement("canvas");
     context = canvas.getContext("2d"); // draws
-    
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     document.body.appendChild(canvas);
     gameStart();
+    player.name = name;
  for (var i = 0 ; i < 60; i++){
             for (var j = 0;j < 60 ; j++){
                 if(map[i][j] == 0){
@@ -59,35 +63,99 @@ window.onload = function(){
             }
         }
         setInterval(()=>{
-            createmonster();
             player.update();
             gameUpdate();
             gameDrawer(context);
-        }, 35);
-    };
+        }, 25);
 
+    initSocketClient();
+
+    };
 function gameStart(){
-    player = new Knight(100,100);
+    choice = Math.floor((Math.random() * 2) + 1);
+    switch(choice){
+        case 1:
+            player = new Knight(100,100);
+            break;
+        case 2:
+            player = new Mage(100,100);
+            break;
+    }
+}
+function initSocketClient()
+{
+    socket = io.connect();
+    socket.emit('player_created',{x:player.x,y:player.y,choice:choice,name:player.name});
+    socket.on("info_player",function(data){
+        console.log("My ID " + data.id);
+        player.id = data.id;
+        for (var i = 0; i < data.players.length; i++){
+            switch(data.players[i].choice)
+            {
+                case 1:
+                    var newPlayer = new Knight(data.players[i].x,data.players[i].y);
+                    newPlayer.id=data.players[i].id;
+                    newPlayer.name = data.players[i].name;
+                    otherPlayers.push(newPlayer);
+                    break;
+                case 2:
+                    var newPlayer = new Mage(data.players[i].x,data.players[i].y);
+                    newPlayer.id=data.players[i].id;
+                    newPlayer.name = data.players[i].name;
+                    otherPlayers.push(newPlayer);
+                    break;
+            }
+        }
+    });
+    socket.on('new_player_connected',function(data){
+        switch(data.choice)
+        {
+            case 1:
+                var newPlayer = new Knight(data.x,data.y);
+                newPlayer.id=data.id;
+                newPlayer.name=data.name;
+                otherPlayers.push(newPlayer);
+                break;
+            case 2:
+                var newPlayer = new Mage(data.x,data.y);
+                newPlayer.id=data.id;
+                newPlayer.name=data.name;
+                otherPlayers.push(newPlayer);
+                break;
+        }
+    });
+    createmonster();
+    createbuff();
 }
 function createmonster()
 {
-    count ++;
-    if(count >= 50)
-    {
-        count = 0;
-        if(arrMons.length <20)
+    socket.on('monster_create',function(data){
+        for(var i=0;i<data.monsters.length;i++)
         {
-            var x = Math.floor((Math.random() * 1000) + 1);
-            var y = Math.floor((Math.random() * 1000) + 1);
-            var monster = new Golem(x,y);
-            arrMons.push(monster);
+            var chicken= new Chicken(data.monsters[i].x,data.monsters[i].y);
+            chicken.id=data.monsters[i].id;
+            arrMons.push(chicken);
         }
-    }
+    });
+    // var chicken = new Chicken(200,200);
+    // arrMons.push(chicken);
+
+}
+function createbuff()
+{
+    socket.on('buff_create',function(data){
+        for(var i=0;i<data.buff.length;i++)
+        {
+            var speed= new Speed(data.buff[i].x,data.buff[i].y);
+            speed.id=data.buff[i].id;
+            arrBuff.push(speed);
+        }
+    });
 }
 function gameDrawer(context){
     context.fillStyle = "black";
     context.fillRect(0,0,window.innerWidth,window.innerHeight);
-
+    
     for (var a = 0; a < arrGrass.length;a++){
         arrGrass[a].draw(context);
     }
@@ -117,18 +185,89 @@ function gameDrawer(context){
     {
         arrMons[i].draw(context);
     }
+    for(var i = 0; i<arrBuff.length;i++)
+    {
+        arrBuff[i].draw(context);
+    }
+    for(var i = 0;i<otherPlayers.length;i++)
+    {
+        otherPlayers[i].draw(context);
+    }
     player.draw(context);
 }
 
 function gameUpdate(){
+    socket.on('update',function(update)
+    {
+        for(var i = 0; i<otherPlayers.length;i++)
+        {
+            if(otherPlayers[i].id == update.id)
+            {
+                otherPlayers[i].direction = update.direction;
+                switch(update.direction)
+                {
+                    case 1:
+                        otherPlayers[i].sprite = otherPlayers[i].spriteUp;
+                        break;
+                    case 2:
+                        otherPlayers[i].sprite = otherPlayers[i].spriteDown;
+                        break;
+                    case 3:
+                        otherPlayers[i].sprite = otherPlayers[i].spriteLeft;
+                        break;
+                    case 4:
+                        otherPlayers[i].sprite = otherPlayers[i].spriteRight;
+                        break;
+                }
+                otherPlayers[i].x = update.x;
+                otherPlayers[i].y = update.y;
+                otherPlayers[i].sprite.update(update.spx,update.spy);
+            }
+        }
+    });
+    socket.on('player_hp',function(data){
+        if(player.id = data.id)
+        {
+            player.currhp = data.hp;
+        }
+    });
+    socket.on('player_dead',function(data){
+        if(player.id==data.id)
+        {
+            player = new Headstone(player.x,player.y);
+        }
+    });
+    socket.on('monster_dead',function(data){
+       for(var i=0;i<arrMons.length;i++)
+       {
+           if(arrMons[i].id == data.id)
+           {
+               arrMons.splice(i,1);
+           }
+       }
+    });
+    for(var i = 0; i<otherPlayers.length;i++)
+    {
+        otherPlayers[i].update();
+    }
     for (var i =0; i< arrWater.length; i++) {
         arrWater[i].update();
     }
-    player.update();
-    for(var i=0;i< arrMons.length;i++)
+    for(var i=0;i< arrBuff.length;i++)
     {
-        arrMons[i].update();
+        arrBuff[i].update();
     }
+    player.update();
+    socket.on('player_attack',function(data){
+        for(var i = 0; i<otherPlayers.length;i++)
+        {
+            if(otherPlayers[i].id == data.id)
+            {
+                otherPlayers[i].attack();
+            }
+        }
+    });
+    socket.emit('player_update',{id:player.id,x:player.x,y:player.y,direction:player.direction,spx:player.speedX,spy:player.speedY});
 }
 
 window.onkeydown = function(e){
@@ -147,6 +286,7 @@ window.onkeydown = function(e){
             break;
         case 32: // SPACEBAR
             player.attack();
+            socket.emit('player_attack',{id:player.id});
             break;
     }
 }

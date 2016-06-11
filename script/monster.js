@@ -1,64 +1,19 @@
 /**
  * Created by Manh Tuan on 5/29/2016.
  */
-class Golem{
+class Chicken{
     constructor(x,y){
+        this.id = 0;
         this.hp = 350;
-        this.sx = x;
-        this.sy = y;
         this.x=x;
         this.y=y;
-        this.move = 0;
-        this.count = 0;
-        this.spcdirection = 50;
-        this.sprite = new GolemAnimation(this.x,this.y);
+        this.ix=48;
+        this.iy=0;
+        this.sprite = new Image();
+        this.sprite.src = "animation/chicken.png"
     }
     draw(context)
     {
-        this.sprite.draw(context);
-    }
-    update()
-    {
-        this.count ++;
-        if(this.count > this.spcdirection)
-        {
-            this.count = 0;
-            this.move = Math.floor((Math.random() * 4) + 1);
-        }
-        switch(this.move){
-            case 1:
-                //move right
-                if(this.x <= this.sx + 70)
-                {
-                    this.sprite.update();
-                    this.x += 1;
-                    this.sprite.x +=1;
-                }
-                break;
-            case 2:
-                if(this.x >= this.sx -70)
-                {
-                    this.sprite.update();
-                    this.x -= 1;
-                    this.sprite.x -=1;
-                }
-                break;
-            case 3:
-                if(this.y <= this.sy + 70)
-                {
-                    this.sprite.update();
-                    this.y += 1;
-                    this.sprite.y +=1;
-                }
-                break;
-            case 4:
-                if(this.y >= this.sy -70)
-                {
-                    this.sprite.update();
-                    this.y -= 1;
-                    this.sprite.y -= 1;
-                }
-                break;
-        }
+        context.drawImage(this.sprite,this.ix,this.iy,48,48,this.x,this.y,32,32);
     }
 }

@@ -3,6 +3,7 @@
  */
 class Sword{
     constructor(x,y,direction,range){
+        this.id = 0;
         this.x = x;
         this.y = y;
         this.range = range;
