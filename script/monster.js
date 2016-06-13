@@ -4,7 +4,7 @@
 class Chicken{
     constructor(x,y){
         this.id = 0;
-        this.hp = 350;
+        this.hp = 50;
         this.x=x;
         this.y=y;
         this.ix=48;

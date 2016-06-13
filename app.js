@@ -10,8 +10,8 @@ app.get('/', function(req, res){
     res.sendfile('index.html');
 });
 
-http.listen(3000, function(){
-    console.log('listening on *:3000');
+http.listen(6002, function(){
+    console.log('listening on *:6002');
 });
 players = [];
 monsters = [];
@@ -34,9 +34,10 @@ io.on('connection', function(socket){
             {
                 players[i].x = update.x;
                 players[i].y = update.y;
+                players[i].lv = update.lv;
             }
         }
-        socket.broadcast.emit('update',{id:update.id,x:update.x,y:update.y,direction:update.direction,spx:update.spx,spy:update.spy});
+        socket.broadcast.emit('update',{id:update.id,x:update.x,y:update.y,direction:update.direction,spx:update.spx,spy:update.spy,lv:update.lv});
     });
     socket.on('player_hp',function(data){
         socket.broadcast.emit('player_hp',{id:data.id,hp:data.hp});
@@ -53,7 +54,7 @@ io.on('connection', function(socket){
     });
     socket.on('player_attack',function(data){
         socket.broadcast.emit('player_attack',{id:data.id});
-    });
+    }); 
     setInterval(function () {
         if(monsters.length <10)
         {
@@ -93,5 +94,15 @@ io.on('connection', function(socket){
                 socket.broadcast.emit('buffed',{id:data.id});
             }
         }
+    });
+   // socket.on('skill_up',function(data){
+ //      for(var i =0;i< otherPlayers.length;i++) {
+ //          if(otherPlayers[i].id == data.id){
+ //              otherPlayers[i].skillUp = 1;
+ //          }
+ //      }
+ //   });
+    socket.on('mini_stun',function(data){
+        socket.broadcast.emit('mini_stun',{id:data.id});
     });
 });
