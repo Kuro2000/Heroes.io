@@ -459,6 +459,7 @@ class Archer {
         this.sprite.x = this.x;
         this.sprite.y = this.y;
         var isMove = true;
+        var rect1 = {x: this.x + this.speedX, y: this.y + this.speedY, width: 32, height: 32};
         for (var i = 0; i < arrBigTree.length; i++) {
             var rect2 = {x: arrBigTree[i].x, y: arrBigTree[i].y, width: 64, height: 64};
             if (this.checkCollision(rect1, rect2) == true) {

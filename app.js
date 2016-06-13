@@ -105,4 +105,10 @@ io.on('connection', function(socket){
     socket.on('mini_stun',function(data){
         socket.broadcast.emit('mini_stun',{id:data.id});
     });
+    socket.on('close', function (data) {
+        socket.broadcast.emit('update_tanker_delete_server', data);
+    });
+    socket.on('disconnect', function () {
+        socket.broadcast.emit('update_tanker_delete_server', players);
+    });
 });

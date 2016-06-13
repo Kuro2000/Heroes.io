@@ -483,6 +483,13 @@ function gameUpdate(){
             }
         }
     });
+    socket.on('update_tanker_delete_server', function (data) {
+            for(var i = 0; i < otherPlayers.length; i++){
+                if (data.id == otherPlayers[i].id){
+                    otherPlayers.splice(i,1);
+                }
+            }
+    });
     for(var i=0;i< arrBuff.length;i++)
     {
         arrBuff[i].update();
@@ -585,3 +592,9 @@ function getposy()
     //canh tren
     return posy;
 }
+window.onbeforeunload = function (e) {
+    socket.emit('close',{id: player.id, x: player.x, y : player.y});
+};
+window.onunload = function (e) {
+    socket.emit('close',{id: player.id, x: player.x, y : player.y});
+};
